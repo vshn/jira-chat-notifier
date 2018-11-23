@@ -1,0 +1,377 @@
+{
+    "timestamp": 1542978424675,
+    "webhookEvent": "jira:issue_updated",
+    "issue_event_type_name": "issue_generic",
+    "user": {
+        "self": "https://ticket-test.example.com/rest/api/2/user?username=admin",
+        "name": "admin",
+        "key": "admin",
+        "emailAddress": "max.muster@example.com",
+        "avatarUrls": {
+            "48x48": "https://ticket-test.example.com/secure/useravatar?avatarId=10350",
+            "24x24": "https://ticket-test.example.com/secure/useravatar?size=small&avatarId=10350",
+            "16x16": "https://ticket-test.example.com/secure/useravatar?size=xsmall&avatarId=10350",
+            "32x32": "https://ticket-test.example.com/secure/useravatar?size=medium&avatarId=10350"
+        },
+        "displayName": "Jira Admin",
+        "active": true,
+        "timeZone": "Europe/Zurich"
+    },
+    "issue": {
+        "id": "31100",
+        "self": "https://ticket-test.example.com/rest/api/2/issue/31100",
+        "key": "SUPPORT-2289",
+        "fields": {
+            "issuetype": {
+                "self": "https://ticket-test.example.com/rest/api/2/issuetype/10201",
+                "id": "10201",
+                "description": "Incoming Request",
+                "iconUrl": "https://ticket-test.example.com/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+                "name": "Request",
+                "subtask": false,
+                "avatarId": 10300
+            },
+            "timespent": null,
+            "project": {
+                "self": "https://ticket-test.example.com/rest/api/2/project/10110",
+                "id": "10110",
+                "key": "SUPPORT",
+                "name": "EXAMPLE: Support Inbox",
+                "avatarUrls": {
+                    "48x48": "https://ticket-test.example.com/secure/projectavatar?pid=10110&avatarId=10207",
+                    "24x24": "https://ticket-test.example.com/secure/projectavatar?size=small&pid=10110&avatarId=10207",
+                    "16x16": "https://ticket-test.example.com/secure/projectavatar?size=xsmall&pid=10110&avatarId=10207",
+                    "32x32": "https://ticket-test.example.com/secure/projectavatar?size=medium&pid=10110&avatarId=10207"
+                },
+                "projectCategory": {
+                    "self": "https://ticket-test.example.com/rest/api/2/projectCategory/10001",
+                    "id": "10001",
+                    "description": "EXAMPLE Internal",
+                    "name": "Internal"
+                }
+            },
+            "fixVersions": [],
+            "customfield_11200": null,
+            "aggregatetimespent": null,
+            "resolution": null,
+            "customfield_11400": null,
+            "customfield_10500": null,
+            "resolutiondate": null,
+            "workratio": -1,
+            "lastViewed": "2018-11-23T14:07:04.628+0100",
+            "watches": {
+                "self": "https://ticket-test.example.com/rest/api/2/issue/SUPPORT-2289/watchers",
+                "watchCount": 2,
+                "isWatching": true
+            },
+            "created": "2018-09-05T16:12:55.097+0200",
+            "priority": {
+                "self": "https://ticket-test.example.com/rest/api/2/priority/1",
+                "iconUrl": "https://ticket-test.example.com/images/icons/priorities/blocker.svg",
+                "name": "Emergency",
+                "id": "1"
+            },
+            "customfield_10101": "{hide-templates=[true]}",
+            "customfield_10300": null,
+            "labels": [],
+            "customfield_11502": null,
+            "customfield_11700": null,
+            "customfield_11702": null,
+            "customfield_11701": "APPUiO_Public",
+            "customfield_11503": null,
+            "timeestimate": null,
+            "aggregatetimeoriginalestimate": null,
+            "versions": [],
+            "customfield_11703": null,
+            "issuelinks": [],
+            "assignee": null,
+            "updated": "2018-11-23T14:07:04.660+0100",
+            "status": {
+                "self": "https://ticket-test.example.com/rest/api/2/status/10003",
+                "description": "",
+                "iconUrl": "https://ticket-test.example.com/",
+                "name": "Selected",
+                "id": "10003",
+                "statusCategory": {
+                    "self": "https://ticket-test.example.com/rest/api/2/statuscategory/2",
+                    "id": 2,
+                    "key": "new",
+                    "colorName": "blue-gray",
+                    "name": "To Do"
+                }
+            },
+            "components": [],
+            "timeoriginalestimate": null,
+            "description": "Max Muster (max.muster) says:\n\n*Emergency details: ja will halt alles kaputt isch. 044 24 24 24 24*\r\n\r\nimmer isch alles kaputt\r\n\r\nsafd",
+            "customfield_11300": "{summaryBean=com.atlassian.jira.plugin.devstatus.rest.SummaryBean@2cea827f[summary={pullrequest=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@7511e077[overall=PullRequestOverallBean{stateCount=0, state='OPEN', details=PullRequestOverallDetails{openCount=0, mergedCount=0, declinedCount=0}},byInstanceType={}], build=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@307c8d71[overall=com.atlassian.jira.plugin.devstatus.summary.beans.BuildOverallBean@4a14c151[failedBuildCount=0,successfulBuildCount=0,unknownBuildCount=0,count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>],byInstanceType={}], review=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@b451085[overall=com.atlassian.jira.plugin.devstatus.summary.beans.ReviewsOverallBean@2b2388d9[stateCount=0,state=<null>,dueDate=<null>,overDue=false,count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>],byInstanceType={}], deployment-environment=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@7fe08fc9[overall=com.atlassian.jira.plugin.devstatus.summary.beans.DeploymentOverallBean@1312d72d[topEnvironments=[],showProjects=false,successfulCount=0,count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>],byInstanceType={}], repository=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@30f03cf2[overall=com.atlassian.jira.plugin.devstatus.summary.beans.CommitOverallBean@7220f75[count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>],byInstanceType={}], branch=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@7cc7569f[overall=com.atlassian.jira.plugin.devstatus.summary.beans.BranchOverallBean@79694d95[count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>],byInstanceType={}]},errors=[],configErrors=[]], devSummaryJson={\"cachedValue\":{\"errors\":[],\"configErrors\":[],\"summary\":{\"pullrequest\":{\"overall\":{\"count\":0,\"lastUpdated\":null,\"stateCount\":0,\"state\":\"OPEN\",\"details\":{\"openCount\":0,\"mergedCount\":0,\"declinedCount\":0,\"total\":0},\"open\":true},\"byInstanceType\":{}},\"build\":{\"overall\":{\"count\":0,\"lastUpdated\":null,\"failedBuildCount\":0,\"successfulBuildCount\":0,\"unknownBuildCount\":0},\"byInstanceType\":{}},\"review\":{\"overall\":{\"count\":0,\"lastUpdated\":null,\"stateCount\":0,\"state\":null,\"dueDate\":null,\"overDue\":false,\"completed\":false},\"byInstanceType\":{}},\"deployment-environment\":{\"overall\":{\"count\":0,\"lastUpdated\":null,\"topEnvironments\":[],\"showProjects\":false,\"successfulCount\":0},\"byInstanceType\":{}},\"repository\":{\"overall\":{\"count\":0,\"lastUpdated\":null},\"byInstanceType\":{}},\"branch\":{\"overall\":{\"count\":0,\"lastUpdated\":null},\"byInstanceType\":{}}}},\"isStale\":false}}",
+            "customfield_11500": null,
+            "timetracking": {},
+            "customfield_10401": "max.muster@example.com",
+            "customfield_10600": null,
+            "customfield_10006": null,
+            "attachment": [],
+            "customfield_10009": "1|zzshrs:",
+            "aggregatetimeestimate": null,
+            "summary": "alles putt",
+            "creator": {
+                "self": "https://ticket-test.example.com/rest/api/2/user?username=testuser",
+                "name": "testuser",
+                "key": "testuser",
+                "emailAddress": "",
+                "avatarUrls": {
+                    "48x48": "https://ticket-test.example.com/secure/useravatar?ownerId=testuser&avatarId=13700",
+                    "24x24": "https://ticket-test.example.com/secure/useravatar?size=small&ownerId=testuser&avatarId=13700",
+                    "16x16": "https://ticket-test.example.com/secure/useravatar?size=xsmall&ownerId=testuser&avatarId=13700",
+                    "32x32": "https://ticket-test.example.com/secure/useravatar?size=medium&ownerId=testuser&avatarId=13700"
+                },
+                "displayName": "Test User",
+                "active": true,
+                "timeZone": "Europe/Zurich"
+            },
+            "subtasks": [],
+            "reporter": {
+                "self": "https://ticket-test.example.com/rest/api/2/user?username=testuser",
+                "name": "testuser",
+                "key": "testuser",
+                "emailAddress": "",
+                "avatarUrls": {
+                    "48x48": "https://ticket-test.example.com/secure/useravatar?ownerId=testuser&avatarId=13700",
+                    "24x24": "https://ticket-test.example.com/secure/useravatar?size=small&ownerId=testuser&avatarId=13700",
+                    "16x16": "https://ticket-test.example.com/secure/useravatar?size=xsmall&ownerId=testuser&avatarId=13700",
+                    "32x32": "https://ticket-test.example.com/secure/useravatar?size=medium&ownerId=testuser&avatarId=13700"
+                },
+                "displayName": "Test User",
+                "active": true,
+                "timeZone": "Europe/Zurich"
+            },
+            "aggregateprogress": {
+                "progress": 0,
+                "total": 0
+            },
+            "customfield_10001": null,
+            "customfield_10004": null,
+            "environment": null,
+            "duedate": null,
+            "progress": {
+                "progress": 0,
+                "total": 0
+            },
+            "comment": {
+                "comments": [
+                    {
+                        "self": "https://ticket-test.example.com/rest/api/2/issue/31100/comment/64600",
+                        "id": "64600",
+                        "author": {
+                            "self": "https://ticket-test.example.com/rest/api/2/user?username=testuser",
+                            "name": "testuser",
+                            "key": "testuser",
+                            "emailAddress": "",
+                            "avatarUrls": {
+                                "48x48": "https://ticket-test.example.com/secure/useravatar?ownerId=testuser&avatarId=13700",
+                                "24x24": "https://ticket-test.example.com/secure/useravatar?size=small&ownerId=testuser&avatarId=13700",
+                                "16x16": "https://ticket-test.example.com/secure/useravatar?size=xsmall&ownerId=testuser&avatarId=13700",
+                                "32x32": "https://ticket-test.example.com/secure/useravatar?size=medium&ownerId=testuser&avatarId=13700"
+                            },
+                            "displayName": "Test User",
+                            "active": true,
+                            "timeZone": "Europe/Zurich"
+                        },
+                        "body": "Max Muster (max.muster) says:\n\nasdf",
+                        "updateAuthor": {
+                            "self": "https://ticket-test.example.com/rest/api/2/user?username=testuser",
+                            "name": "testuser",
+                            "key": "testuser",
+                            "emailAddress": "",
+                            "avatarUrls": {
+                                "48x48": "https://ticket-test.example.com/secure/useravatar?ownerId=testuser&avatarId=13700",
+                                "24x24": "https://ticket-test.example.com/secure/useravatar?size=small&ownerId=testuser&avatarId=13700",
+                                "16x16": "https://ticket-test.example.com/secure/useravatar?size=xsmall&ownerId=testuser&avatarId=13700",
+                                "32x32": "https://ticket-test.example.com/secure/useravatar?size=medium&ownerId=testuser&avatarId=13700"
+                            },
+                            "displayName": "Test User",
+                            "active": true,
+                            "timeZone": "Europe/Zurich"
+                        },
+                        "created": "2018-09-05T16:14:59.685+0200",
+                        "updated": "2018-09-05T16:14:59.685+0200"
+                    },
+                    {
+                        "self": "https://ticket-test.example.com/rest/api/2/issue/31100/comment/64601",
+                        "id": "64601",
+                        "author": {
+                            "self": "https://ticket-test.example.com/rest/api/2/user?username=testuser",
+                            "name": "testuser",
+                            "key": "testuser",
+                            "emailAddress": "",
+                            "avatarUrls": {
+                                "48x48": "https://ticket-test.example.com/secure/useravatar?ownerId=testuser&avatarId=13700",
+                                "24x24": "https://ticket-test.example.com/secure/useravatar?size=small&ownerId=testuser&avatarId=13700",
+                                "16x16": "https://ticket-test.example.com/secure/useravatar?size=xsmall&ownerId=testuser&avatarId=13700",
+                                "32x32": "https://ticket-test.example.com/secure/useravatar?size=medium&ownerId=testuser&avatarId=13700"
+                            },
+                            "displayName": "Test User",
+                            "active": true,
+                            "timeZone": "Europe/Zurich"
+                        },
+                        "body": "Max Muster (max.muster) says:\n\nalles futschi",
+                        "updateAuthor": {
+                            "self": "https://ticket-test.example.com/rest/api/2/user?username=testuser",
+                            "name": "testuser",
+                            "key": "testuser",
+                            "emailAddress": "",
+                            "avatarUrls": {
+                                "48x48": "https://ticket-test.example.com/secure/useravatar?ownerId=testuser&avatarId=13700",
+                                "24x24": "https://ticket-test.example.com/secure/useravatar?size=small&ownerId=testuser&avatarId=13700",
+                                "16x16": "https://ticket-test.example.com/secure/useravatar?size=xsmall&ownerId=testuser&avatarId=13700",
+                                "32x32": "https://ticket-test.example.com/secure/useravatar?size=medium&ownerId=testuser&avatarId=13700"
+                            },
+                            "displayName": "Test User",
+                            "active": true,
+                            "timeZone": "Europe/Zurich"
+                        },
+                        "created": "2018-09-05T16:15:13.169+0200",
+                        "updated": "2018-09-05T16:15:13.169+0200"
+                    },
+                    {
+                        "self": "https://ticket-test.example.com/rest/api/2/issue/31100/comment/64900",
+                        "id": "64900",
+                        "author": {
+                            "self": "https://ticket-test.example.com/rest/api/2/user?username=admin",
+                            "name": "admin",
+                            "key": "admin",
+                            "emailAddress": "max.muster@example.com",
+                            "avatarUrls": {
+                                "48x48": "https://ticket-test.example.com/secure/useravatar?avatarId=10350",
+                                "24x24": "https://ticket-test.example.com/secure/useravatar?size=small&avatarId=10350",
+                                "16x16": "https://ticket-test.example.com/secure/useravatar?size=xsmall&avatarId=10350",
+                                "32x32": "https://ticket-test.example.com/secure/useravatar?size=medium&avatarId=10350"
+                            },
+                            "displayName": "Jira Admin",
+                            "active": true,
+                            "timeZone": "Europe/Zurich"
+                        },
+                        "body": "asdf",
+                        "updateAuthor": {
+                            "self": "https://ticket-test.example.com/rest/api/2/user?username=admin",
+                            "name": "admin",
+                            "key": "admin",
+                            "emailAddress": "max.muster@example.com",
+                            "avatarUrls": {
+                                "48x48": "https://ticket-test.example.com/secure/useravatar?avatarId=10350",
+                                "24x24": "https://ticket-test.example.com/secure/useravatar?size=small&avatarId=10350",
+                                "16x16": "https://ticket-test.example.com/secure/useravatar?size=xsmall&avatarId=10350",
+                                "32x32": "https://ticket-test.example.com/secure/useravatar?size=medium&avatarId=10350"
+                            },
+                            "displayName": "Jira Admin",
+                            "active": true,
+                            "timeZone": "Europe/Zurich"
+                        },
+                        "created": "2018-11-23T11:36:37.621+0100",
+                        "updated": "2018-11-23T11:36:37.621+0100"
+                    },
+                    {
+                        "self": "https://ticket-test.example.com/rest/api/2/issue/31100/comment/64901",
+                        "id": "64901",
+                        "author": {
+                            "self": "https://ticket-test.example.com/rest/api/2/user?username=admin",
+                            "name": "admin",
+                            "key": "admin",
+                            "emailAddress": "max.muster@example.com",
+                            "avatarUrls": {
+                                "48x48": "https://ticket-test.example.com/secure/useravatar?avatarId=10350",
+                                "24x24": "https://ticket-test.example.com/secure/useravatar?size=small&avatarId=10350",
+                                "16x16": "https://ticket-test.example.com/secure/useravatar?size=xsmall&avatarId=10350",
+                                "32x32": "https://ticket-test.example.com/secure/useravatar?size=medium&avatarId=10350"
+                            },
+                            "displayName": "Jira Admin",
+                            "active": true,
+                            "timeZone": "Europe/Zurich"
+                        },
+                        "body": "asdfasdf",
+                        "updateAuthor": {
+                            "self": "https://ticket-test.example.com/rest/api/2/user?username=admin",
+                            "name": "admin",
+                            "key": "admin",
+                            "emailAddress": "max.muster@example.com",
+                            "avatarUrls": {
+                                "48x48": "https://ticket-test.example.com/secure/useravatar?avatarId=10350",
+                                "24x24": "https://ticket-test.example.com/secure/useravatar?size=small&avatarId=10350",
+                                "16x16": "https://ticket-test.example.com/secure/useravatar?size=xsmall&avatarId=10350",
+                                "32x32": "https://ticket-test.example.com/secure/useravatar?size=medium&avatarId=10350"
+                            },
+                            "displayName": "Jira Admin",
+                            "active": true,
+                            "timeZone": "Europe/Zurich"
+                        },
+                        "created": "2018-11-23T11:44:01.064+0100",
+                        "updated": "2018-11-23T11:44:01.064+0100"
+                    },
+                    {
+                        "self": "https://ticket-test.example.com/rest/api/2/issue/31100/comment/64902",
+                        "id": "64902",
+                        "author": {
+                            "self": "https://ticket-test.example.com/rest/api/2/user?username=admin",
+                            "name": "admin",
+                            "key": "admin",
+                            "emailAddress": "max.muster@example.com",
+                            "avatarUrls": {
+                                "48x48": "https://ticket-test.example.com/secure/useravatar?avatarId=10350",
+                                "24x24": "https://ticket-test.example.com/secure/useravatar?size=small&avatarId=10350",
+                                "16x16": "https://ticket-test.example.com/secure/useravatar?size=xsmall&avatarId=10350",
+                                "32x32": "https://ticket-test.example.com/secure/useravatar?size=medium&avatarId=10350"
+                            },
+                            "displayName": "Jira Admin",
+                            "active": true,
+                            "timeZone": "Europe/Zurich"
+                        },
+                        "body": "asdf123",
+                        "updateAuthor": {
+                            "self": "https://ticket-test.example.com/rest/api/2/user?username=admin",
+                            "name": "admin",
+                            "key": "admin",
+                            "emailAddress": "max.muster@example.com",
+                            "avatarUrls": {
+                                "48x48": "https://ticket-test.example.com/secure/useravatar?avatarId=10350",
+                                "24x24": "https://ticket-test.example.com/secure/useravatar?size=small&avatarId=10350",
+                                "16x16": "https://ticket-test.example.com/secure/useravatar?size=xsmall&avatarId=10350",
+                                "32x32": "https://ticket-test.example.com/secure/useravatar?size=medium&avatarId=10350"
+                            },
+                            "displayName": "Jira Admin",
+                            "active": true,
+                            "timeZone": "Europe/Zurich"
+                        },
+                        "created": "2018-11-23T11:45:10.974+0100",
+                        "updated": "2018-11-23T11:45:10.974+0100"
+                    }
+                ],
+                "maxResults": 5,
+                "total": 5,
+                "startAt": 0
+            },
+            "votes": {
+                "self": "https://ticket-test.example.com/rest/api/2/issue/SUPPORT-2289/votes",
+                "votes": 0,
+                "hasVoted": false
+            },
+            "worklog": {
+                "startAt": 0,
+                "maxResults": 20,
+                "total": 0,
+                "worklogs": []
+            }
+        }
+    },
+    "changelog": {
+        "id": "254600",
+        "items": [
+            {
+                "field": "status",
+                "fieldtype": "jira",
+                "from": "1",
+                "fromString": "New",
+                "to": "10003",
+                "toString": "Selected"
+            }
+        ]
+    }
+}

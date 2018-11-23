@@ -1,0 +1,39 @@
+{
+    "timestamp": 1542969910974,
+    "webhookEvent": "comment_created",
+    "comment": {
+        "self": "https://ticket-test.example.com/rest/api/2/issue/31100/comment/64902",
+        "id": "64902",
+        "author": {
+            "self": "https://ticket-test.example.com/rest/api/2/user?username=admin",
+            "name": "admin",
+            "key": "admin",
+            "avatarUrls": {
+                "48x48": "https://ticket-test.example.com/secure/useravatar?avatarId=10350",
+                "24x24": "https://ticket-test.example.com/secure/useravatar?size=small&avatarId=10350",
+                "16x16": "https://ticket-test.example.com/secure/useravatar?size=xsmall&avatarId=10350",
+                "32x32": "https://ticket-test.example.com/secure/useravatar?size=medium&avatarId=10350"
+            },
+            "displayName": "Jira Admin",
+            "active": true,
+            "timeZone": "Europe/Zurich"
+        },
+        "body": "asdf123",
+        "updateAuthor": {
+            "self": "https://ticket-test.example.com/rest/api/2/user?username=admin",
+            "name": "admin",
+            "key": "admin",
+            "avatarUrls": {
+                "48x48": "https://ticket-test.example.com/secure/useravatar?avatarId=10350",
+                "24x24": "https://ticket-test.example.com/secure/useravatar?size=small&avatarId=10350",
+                "16x16": "https://ticket-test.example.com/secure/useravatar?size=xsmall&avatarId=10350",
+                "32x32": "https://ticket-test.example.com/secure/useravatar?size=medium&avatarId=10350"
+            },
+            "displayName": "Jira Admin",
+            "active": true,
+            "timeZone": "Europe/Zurich"
+        },
+        "created": "2018-11-23T11:45:10.974+0100",
+        "updated": "2018-11-23T11:45:10.974+0100"
+    }
+}

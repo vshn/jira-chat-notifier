@@ -61,6 +61,5 @@ docker run --rm -ti -v $(pwd)/config.yaml:/etc/jira-chat-notifier/config.yaml:ro
 ## TODO
 
 * Support multiple outgoing webhook endpoints
-* Deploy to production
 * Test with Slack
 * Go testing

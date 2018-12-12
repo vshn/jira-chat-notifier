@@ -24,6 +24,10 @@ var (
 		Name: "jira_webhooks_processed_total",
 		Help: "The total number of processed JIRA webhook events since application start",
 	})
+	unknownWebhooksReceived = promauto.NewCounter(prometheus.CounterOpts{
+		Name: "jira_unknown_webhooks_received_total",
+		Help: "The total number of unknown JIRA webhook events received since application start",
+	})
 	webhooksProcessedPerProject = promauto.NewCounterVec(prometheus.CounterOpts{
 		Name: "jira_webhooks_processed_per_project",
 		Help: "The total number of processed JIRA webhook events since application start per JIRA project",
@@ -113,6 +117,7 @@ func jiraIncomingWebhook(rw http.ResponseWriter, req *http.Request) {
 	event.Project, _ = jsonparser.GetString(body, "issue", "fields", "project", "key")
 	event.ProjectAvatar, _ = jsonparser.GetString(body, "issue", "fields", "project", "avatarUrls", "24x24")
 
+	// Check for webhookEvent field to identify JIRA webhooks
 	if event.WebhookEvent == "" {
 		log.Error("webhookEvent field not found")
 		rw.WriteHeader(http.StatusInternalServerError)
@@ -120,48 +125,59 @@ func jiraIncomingWebhook(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	// Only handle webhooks for known projects
-	if !viper.IsSet("projects." + event.Project) {
-		log.WithFields(log.Fields{
-			"jira_event":   event.WebhookEvent,
-			"jira_project": event.Project,
-			"issue_key":    event.IssueKey,
-		}).Info("JIRA project is unknown in configuration")
-		return
-	}
+	// Handle known events
+	var msg string
+	var eventMsg string
 
-	// Handle events
 	switch event.WebhookEvent {
 	case "jira:issue_created":
-		log.WithFields(log.Fields{
-			"jira_event":   "issue_created",
-			"jira_project": event.Project,
-			"issue_key":    event.IssueKey,
-		}).Info("JIRA webhook received")
-		msg := "By " + event.DisplayName
-		sendChatMessage(event, msg, "created")
+		msg = "By " + event.DisplayName
+		eventMsg = "created"
 
 	case "jira:issue_updated":
-		log.WithFields(log.Fields{
-			"jira_event":   "issue_updated",
-			"jira_project": event.Project,
-			"issue_key":    event.IssueKey,
-		}).Info("JIRA webhook received")
-
 		// Compose changelog
 		changelogFrom, _ := jsonparser.GetString(body, "changelog", "items", "[0]", "fromString")
 		changelogTo, _ := jsonparser.GetString(body, "changelog", "items", "[0]", "toString")
 		changelogField, _ := jsonparser.GetString(body, "changelog", "items", "[0]", "field")
 		event.Changelog = " changed field " + changelogField + ": " + changelogFrom + " -> " + changelogTo
 
-		msg := event.DisplayName + event.Changelog
-		sendChatMessage(event, msg, "updated")
+		msg = event.DisplayName + event.Changelog
+		eventMsg = "updated"
+
+	default:
+		log.WithFields(log.Fields{
+			"jira_event": event.WebhookEvent,
+		}).Warn("Unknown JIRA event received. Skipping.")
+
+		unknownWebhooksReceived.Inc()
+	}
+
+	// If there is a message ready, check if it's a known project and send message
+	if len(msg) > 0 {
+		// Only handle event for known projects
+		if !viper.IsSet("projects." + event.Project) {
+			log.WithFields(log.Fields{
+				"jira_event":   event.WebhookEvent,
+				"jira_project": event.Project,
+				"issue_key":    event.IssueKey,
+			}).Warn("JIRA project not found in configuration")
+			return
+		}
+
+		log.WithFields(log.Fields{
+			"jira_event":   event.WebhookEvent,
+			"jira_project": event.Project,
+			"issue_key":    event.IssueKey,
+		}).Info("Known JIRA event received and matching project config found")
+
+		sendChatMessage(event, msg, eventMsg)
+
+		// Count webhooks per project
+		webhooksProcessedPerProject.WithLabelValues(event.Project).Inc()
 	}
 
 	// Increase webhooks processed counter for metrics
 	webhooksProcessed.Inc()
-	webhooksProcessedPerProject.WithLabelValues(event.Project).Inc()
-
 }
 
 func healthz(rw http.ResponseWriter, req *http.Request) {

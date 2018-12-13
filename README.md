@@ -15,10 +15,11 @@ general:
   secret: ThisIsNotAGoodSecretAndItsMeantForTesting
 projects:
   PROJECT1:
-    webhook: https://rocket.chat/hooks/...
+    - webhook: https://rocket.chat/hooks/...
   PROJECT2:
-    webhook: https://rocket.chat/hooks/...
-    ticket_url: https://myjira.example.com/issues/
+    - webhook: https://rocket.chat/hooks/...
+      ticket_url: https://myjira.example.com/issues/
+    - webhook: https://rocket.chat/hooks/...
 ```
 
 * `general.ticket_url`: Default URL to link issues to. The issue ID will
@@ -34,7 +35,7 @@ The incoming webhook URL needs to be configured in JIRA. URL endpoint, example:
 `http://myjcn.example.com:8081/ThisIsNotAGoodSecretAndItsMeantForTesting/jira`
 
 For each incoming webhook an outgoing webhook will be sent to the configured
-destination per JIRA project. If an incoming webhook is for a project which
+destinations per JIRA project. If an incoming webhook is for a project which
 is not configured, it is ignored.
 
 Other endpoints:
@@ -60,6 +61,8 @@ docker run --rm -ti -v $(pwd)/config.yaml:/etc/jira-chat-notifier/config.yaml:ro
 
 ## TODO
 
-* Support multiple outgoing webhook endpoints
 * Test with Slack
 * Go testing
+* Support configuring secret via Env var
+* Handle empty changelog on update event
+* Choose sent event types per JIRA project per endpoint

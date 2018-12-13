@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 
 	"github.com/buger/jsonparser"
@@ -32,6 +33,9 @@ var (
 		Name: "jira_webhooks_processed_per_project",
 		Help: "The total number of processed JIRA webhook events since application start per JIRA project",
 	}, []string{"project"})
+
+	// Global config
+	config appConfig
 )
 
 // Fields of interest in an incoming JIRA Webhook
@@ -60,44 +64,63 @@ type rocketChatWebhook struct {
 	Attachments []rocketChatWebhookAttachment `json:"attachments"`
 }
 
+type generalConfig struct {
+	TicketURL string `mapstructure:"ticket_url"`
+	Listen    string
+	Secret    string
+}
+
+type outgoingWebhookConfig struct {
+	WebhookURL string `mapstructure:"webhook"`
+	TicketURL  string `mapstructure:"ticket_url"`
+}
+
+type appConfig struct {
+	General  generalConfig                      `mapstructure:"general"`
+	Projects map[string][]outgoingWebhookConfig `mapstructure:"projects"`
+}
+
 func sendChatMessage(eventData jiraWebhook, msg string, event string) {
 
-	ticketURLConfigPath := "projects." + eventData.Project + ".ticket_url"
+	for _, out := range config.Projects[strings.ToLower(eventData.Project)] {
 
-	var ticketURL string
-	if viper.IsSet(ticketURLConfigPath) {
-		ticketURL = viper.GetString(ticketURLConfigPath)
-	} else {
-		ticketURL = viper.GetString("general.ticket_url")
-	}
+		if out.WebhookURL == "" {
+			log.Error(fmt.Errorf("projects.%s.webhook not configured", eventData.Project))
+			return
+		}
 
-	// Compose chat message payload
-	chatmsgatt := rocketChatWebhookAttachment{
-		Title:     eventData.IssueSummary,
-		TitleLink: ticketURL + eventData.IssueKey,
-		Text:      msg,
-		//ImageURL:  eventData.ProjectAvatar,
-	}
-	chatmsg := rocketChatWebhook{
-		Text:        "Issue " + eventData.IssueKey + " has been " + event,
-		Attachments: []rocketChatWebhookAttachment{chatmsgatt},
-	}
+		// Use default ticket_url if not overwriten in project config
+		if out.TicketURL == "" {
+			out.TicketURL = config.General.TicketURL
+		}
 
-	bytesRepresentation, _ := json.Marshal(chatmsg)
-	webhookEndpoint := viper.GetString("projects." + eventData.Project + ".webhook")
+		// Compose chat message payload
+		chatmsgatt := rocketChatWebhookAttachment{
+			Title:     eventData.IssueSummary,
+			TitleLink: out.TicketURL + eventData.IssueKey,
+			Text:      msg,
+			//ImageURL:  eventData.ProjectAvatar,
+		}
+		chatmsg := rocketChatWebhook{
+			Text:        "Issue " + eventData.IssueKey + " has been " + event,
+			Attachments: []rocketChatWebhookAttachment{chatmsgatt},
+		}
 
-	log.WithFields(log.Fields{
-		"jira_project":     eventData.Project,
-		"issue_key":        eventData.IssueKey,
-		"webhook_endpoint": webhookEndpoint,
-	}).Info("Sending webhook to chat")
+		bytesRepresentation, _ := json.Marshal(chatmsg)
 
-	res, err := http.Post(webhookEndpoint, "application/json", bytes.NewBuffer(bytesRepresentation))
+		log.WithFields(log.Fields{
+			"jira_project":     eventData.Project,
+			"issue_key":        eventData.IssueKey,
+			"webhook_endpoint": out.WebhookURL,
+		}).Info("Sending webhook to chat")
 
-	if err == nil {
-		log.Info("Webhook sent: " + string(res.Status))
-	} else {
-		log.Error("Webhook sending failed: " + string(res.Status))
+		res, err := http.Post(out.WebhookURL, "application/json", bytes.NewBuffer(bytesRepresentation))
+
+		if err == nil {
+			log.Info("Webhook sent: " + string(res.Status))
+		} else {
+			log.Error("Webhook sending failed: " + string(res.Status))
+		}
 	}
 }
 
@@ -155,25 +178,24 @@ func jiraIncomingWebhook(rw http.ResponseWriter, req *http.Request) {
 	// If there is a message ready, check if it's a known project and send message
 	if len(msg) > 0 {
 		// Only handle event for known projects
-		if !viper.IsSet("projects." + event.Project) {
+		if _, ok := config.Projects[strings.ToLower(event.Project)]; ok {
+			log.WithFields(log.Fields{
+				"jira_event":   event.WebhookEvent,
+				"jira_project": event.Project,
+				"issue_key":    event.IssueKey,
+			}).Info("Known JIRA event received and matching project config found")
+
+			sendChatMessage(event, msg, eventMsg)
+
+			// Count webhooks per project
+			webhooksProcessedPerProject.WithLabelValues(event.Project).Inc()
+		} else {
 			log.WithFields(log.Fields{
 				"jira_event":   event.WebhookEvent,
 				"jira_project": event.Project,
 				"issue_key":    event.IssueKey,
 			}).Warn("JIRA project not found in configuration")
-			return
 		}
-
-		log.WithFields(log.Fields{
-			"jira_event":   event.WebhookEvent,
-			"jira_project": event.Project,
-			"issue_key":    event.IssueKey,
-		}).Info("Known JIRA event received and matching project config found")
-
-		sendChatMessage(event, msg, eventMsg)
-
-		// Count webhooks per project
-		webhooksProcessedPerProject.WithLabelValues(event.Project).Inc()
 	}
 
 	// Increase webhooks processed counter for metrics
@@ -207,27 +229,35 @@ func main() {
 	viper.AddConfigPath("/etc/jira-chat-notifier/")
 	err := viper.ReadInConfig()
 	if err != nil {
-		log.Fatal(fmt.Errorf("config file error: %s", err))
+		log.Fatal(fmt.Errorf("config file reading error: %v", err))
 	}
-	viper.SetDefault("general.listen", ":8081")
 
-	// Secret must be configured!
-	if !viper.IsSet("general.secret") {
+	// unmarshal config into appConfig struct
+	err = viper.Unmarshal(&config)
+	if err != nil {
+		log.Fatal(fmt.Errorf("config file parsing error: %v", err))
+	}
+
+	// Secret must be configured - abort if not set
+	if config.General.Secret == "" {
 		log.Fatal("general.secret not configured")
 	}
-
-	if !viper.IsSet("general.ticket_url") {
+	if config.General.TicketURL == "" {
 		log.Warn("general.ticket_url not configured")
+	}
+	if config.General.Listen == "" {
+		log.Info("general.listen not configured - defaulting to :8081")
+		config.General.Listen = ":8081"
 	}
 
 	// Handle various URL paths
 	http.HandleFunc("/", appInfo)
-	http.HandleFunc("/"+viper.GetString("general.secret")+"/jira", jiraIncomingWebhook)
+	http.HandleFunc("/"+config.General.Secret+"/jira", jiraIncomingWebhook)
 	http.HandleFunc("/healthz", healthz)
 	http.Handle("/metrics", promhttp.Handler())
 
-	srv := http.Server{Addr: viper.GetString("general.listen")}
-	log.Info("Listening on " + viper.GetString("general.listen"))
+	srv := http.Server{Addr: config.General.Listen}
+	log.Info("Listening on " + config.General.Listen)
 
 	idleConnsClosed := make(chan struct{})
 	go func() {

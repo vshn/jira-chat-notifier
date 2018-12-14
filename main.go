@@ -253,6 +253,14 @@ func main() {
 		log.Fatal(fmt.Errorf("config file reading error: %v", err))
 	}
 
+	// Check if secret is set in config and env var - warn about this fact
+	if (os.Getenv("URL_SECRET") != "") && (viper.IsSet("general.secret")) {
+		log.Warn("secret configured in config file and env var - env var has precedence")
+	}
+
+	// Read URL secret from environment variable
+	viper.BindEnv("general.secret", "URL_SECRET")
+
 	// unmarshal config into appConfig struct
 	err = viper.Unmarshal(&config)
 	if err != nil {

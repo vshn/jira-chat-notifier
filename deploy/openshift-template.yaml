@@ -55,6 +55,9 @@ objects:
           ports:
           - containerPort: 8081
             protocol: TCP
+          envFrom:
+          - secretRef:
+            name: ${CI_PROJECT_PATH_SLUG}-${APP_STAGE}
           resources:
             limits:
               cpu: 400m

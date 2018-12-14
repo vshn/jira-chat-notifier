@@ -33,6 +33,11 @@ projects:
     webhook. Supported: `updated`, `created`. If not specified, all events are
     sent. Can be combined, separated by comma.
 
+Thanks to the amazing go configuration library
+[spf13/viper](https://github.com/spf13/viper) configuration is automatically reloaded
+when the configuration file changes. This even applies for changes to a ConfigMap when
+deployed on Kubernetes / OpenShift / APPUiO.
+
 ## Usage
 
 The incoming webhook URL needs to be configured in JIRA. URL endpoint, example:

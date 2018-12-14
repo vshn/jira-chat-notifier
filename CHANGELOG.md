@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Support multiple webhook endpoints per project with different configuration
 - Per outgoing webhook event configuration
 - Configuration of secret via ENV variable
+- Hot configuration reload
 
 ### Changed
 - Skip update events without changelog

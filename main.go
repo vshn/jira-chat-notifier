@@ -13,6 +13,7 @@ import (
 	"syscall"
 
 	"github.com/buger/jsonparser"
+	"github.com/fsnotify/fsnotify"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -278,6 +279,13 @@ func main() {
 		log.Info("general.listen not configured - defaulting to :8081")
 		config.General.Listen = ":8081"
 	}
+
+	// Support hot config reloading
+	viper.WatchConfig()
+	viper.OnConfigChange(func(e fsnotify.Event) {
+		log.Info("Configuration file changed, reloading configuration")
+		viper.Unmarshal(&config)
+	})
 
 	// Handle various URL paths
 	http.HandleFunc("/", appInfo)

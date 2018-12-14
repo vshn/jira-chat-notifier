@@ -162,10 +162,20 @@ func jiraIncomingWebhook(rw http.ResponseWriter, req *http.Request) {
 		changelogFrom, _ := jsonparser.GetString(body, "changelog", "items", "[0]", "fromString")
 		changelogTo, _ := jsonparser.GetString(body, "changelog", "items", "[0]", "toString")
 		changelogField, _ := jsonparser.GetString(body, "changelog", "items", "[0]", "field")
-		event.Changelog = " changed field " + changelogField + ": " + changelogFrom + " -> " + changelogTo
 
-		msg = event.DisplayName + event.Changelog
-		eventMsg = "updated"
+		// Sometimes there is no changelog - in this case we don't proceed
+		if changelogField != "" {
+			event.Changelog = " changed field " + changelogField + ": " + changelogFrom + " -> " + changelogTo
+
+			msg = event.DisplayName + event.Changelog
+			eventMsg = "updated"
+		} else {
+			log.WithFields(log.Fields{
+				"jira_event":   event.WebhookEvent,
+				"jira_project": event.Project,
+				"issue_key":    event.IssueKey,
+			}).Warn("Empty changelog - skipping")
+		}
 
 	default:
 		log.WithFields(log.Fields{

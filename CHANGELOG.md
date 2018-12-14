@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Support multiple webhook endpoints per project with different configuration
+- Per outgoing webhook event configuration
 
 ### Changed
 - Skip update events without changelog

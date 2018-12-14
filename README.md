@@ -20,6 +20,7 @@ projects:
     - webhook: https://rocket.chat/hooks/...
       ticket_url: https://myjira.example.com/issues/
     - webhook: https://rocket.chat/hooks/...
+      on_events: created
 ```
 
 * `general.ticket_url`: Default URL to link issues to. The issue ID will
@@ -27,6 +28,9 @@ projects:
 * `general.listen`: IP and port to listen
 * `general.secret`: Secret token which will be added to the incoming webhook URL
 * `projects.`: Webhook destination and optionally ticket URL per JIRA project
+  * `projects.<PROJECT>[].on_events`: Choose which events trigger this outgoing
+    webhook. Supported: `updated`, `created`. If not specified, all events are
+    sent. Can be combined, separated by comma.
 
 ## Usage
 
@@ -64,5 +68,3 @@ docker run --rm -ti -v $(pwd)/config.yaml:/etc/jira-chat-notifier/config.yaml:ro
 * Test with Slack
 * Go testing
 * Support configuring secret via Env var
-* Handle empty changelog on update event
-* Choose sent event types per JIRA project per endpoint

@@ -73,6 +73,7 @@ type generalConfig struct {
 type outgoingWebhookConfig struct {
 	WebhookURL string `mapstructure:"webhook"`
 	TicketURL  string `mapstructure:"ticket_url"`
+	OnEvents   string `mapstructure:"on_events"`
 }
 
 type appConfig struct {
@@ -86,6 +87,16 @@ func sendChatMessage(eventData jiraWebhook, msg string, event string) {
 
 		if out.WebhookURL == "" {
 			log.Error(fmt.Errorf("projects.%s.webhook not configured", eventData.Project))
+			return
+		}
+
+		// Skip outgoing webhook when on_events specified and event not configured
+		if (out.OnEvents != "") && !strings.Contains(out.OnEvents, event) {
+			log.WithFields(log.Fields{
+				"jira_project":     eventData.Project,
+				"issue_key":        eventData.IssueKey,
+				"webhook_endpoint": out.WebhookURL,
+			}).Info("Skipping outgoing webhook - event not in on_events")
 			return
 		}
 

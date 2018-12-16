@@ -9,6 +9,7 @@ variables:
   OPENSHIFT_PROJECT: vshn-jira-chat-notifier-prod
   OPENSHIFT_TOKEN: $KUBE_TOKEN
   OPENSHIFT_URL: $KUBE_URL
+  DOCKER_BUILDKIT: 1
 
 .dockerbuild: &dockerbuild
   before_script:

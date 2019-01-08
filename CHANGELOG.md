@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [v1.1.0]
 ### Added
 - Support multiple webhook endpoints per project with different configuration
 - Per outgoing webhook event configuration

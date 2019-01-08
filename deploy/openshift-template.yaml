@@ -57,7 +57,7 @@ objects:
             protocol: TCP
           envFrom:
           - secretRef:
-              name: ${CI_PROJECT_PATH_SLUG}-${APP_STAGE}
+              name: ${CI_PROJECT_PATH_SLUG}-${APP_STAGE}-url-secret
           resources:
             limits:
               cpu: 400m

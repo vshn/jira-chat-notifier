@@ -80,7 +80,7 @@ manually created and are not part of the CI pipeline:
 
 * `ConfigMaps`: The app configuration is stored in a ConfigMap, the name depends
   on the stage: `vshn-jira-chat-notifier-$stage`
-* `Secret`: Contains the URL secret which is attached to the Pod via ENV vars `vshn-jira-chat-notifier-$stage`
+* `Secret`: Contains the URL secret which is attached to the Pod via ENV vars `vshn-jira-chat-notifier-$stage-url-secret`
 
 The application only starts if the ConfigMap and Secret exists. Otherwise it fails
 to start.
